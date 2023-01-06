@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shunqi.dao.OrderSettingDao">
+
+    <insert id="add" parameterType="com.shunqi.pojo.OrderSetting">
+        insert into t_ordersetting (orderDate, number)
+        values (#{orderDate}, #{number})
+    </insert>
+
+    <update id="update" parameterType="com.shunqi.pojo.OrderSetting">
+        update t_ordersetting
+        set number = #{number}
+        where orderDate = #{orderDate}
+    </update>
+
+    <select id="countByOrderDate" parameterType="date" resultType="long">
+        select count(*)
+        from t_ordersetting
+        where orderDate = #{orderDate}
+    </select>
+
+    <select id="getOrderSettingByMonth" parameterType="map" resultType="com.shunqi.pojo.OrderSetting">
+        select *
+        from t_ordersetting
+        where orderDate between #{dateBegin} and #{dateEnd}
+    </select>
+
+    <update id="editNumberByDate">
+        update t_ordersetting
+        set number = #{number}
+        where orderDate = #{orderDate}
+    </update>
+
+    <select id="getSetmeal" resultType="com.shunqi.pojo.Setmeal">
+
+    </select>
+    
+    <select id="findByOrderDate" resultType="com.shunqi.pojo.OrderSetting" parameterType="date">
+        select * from t_ordersetting where orderDate = #{date}
+    </select>
+
+    <update id="editReservationsByOrderDate" parameterType="integer">
+        update t_ordersetting
+        set reservations = #{reservations}
+        where orderDate = #{orderDate}
+    </update>
+</mapper>
