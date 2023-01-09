@@ -54,6 +54,13 @@
                              always-use-default-target="true"
                              authentication-failure-url="/login.html"
         />
+        <!--
+            logout：退出登录
+            logout-url：退出登录操作对应的请求路径
+            logout-success-url：退出登录后的跳转页面
+            -->
+        <security:logout logout-url="/logout.do"
+                         logout-success-url="/login.html" invalidate-session="true"/>
 
         <!--
             csrf：对应CsrfFilter过滤器

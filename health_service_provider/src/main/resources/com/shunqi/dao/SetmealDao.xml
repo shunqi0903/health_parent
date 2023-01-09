@@ -40,4 +40,17 @@
     <select id="getCheckGroupIdsBySetmealId" resultType="integer" parameterType="integer">
         select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id};
     </select>
+
+    <select id="findSetmealCount" resultType="map">
+        select s.name ,count(*) value from t_order o,t_setmeal s where o.setmeal_id = s.id group by s.name
+    </select>
+
+    <select id="hotSetmeal" resultType="map">
+        select s.name ,count(o.id) setmeal_count,count(o.id)/(select count(id) from t_order) proportion
+                                                from t_order o,t_setmeal s
+                                               where o.setmeal_id = s.id
+                                               group by s.name
+                                               order by setmeal_count desc
+                                                limt 0,4
+    </select>
 </mapper>

@@ -15,4 +15,23 @@
         values (#{name},#{sex},#{idCard},#{phoneNumber},#{regTime});
 
     </insert>
+
+    <select id="memberCount" resultType="int" parameterType="string">
+        select count(*) from t_member where regTime &lt;= #{value}
+    </select>
+
+    <select id="totalMember" resultType="int">
+        select count(*) from t_member
+    </select>
+
+    <select id="thisWeekNewMember" parameterType="string" resultType="int">
+        select count(*) from t_member where regTime &gt;= #{thisWeekMonday}
+    </select>
+    <select id="thisMonthNewMember" parameterType="string" resultType="int">
+        select count(*) from t_member where regTime &gt;= #{firstDay4ThisMonth}
+    </select>
+    <select id="todayNewMember" resultType="int" parameterType="string">
+        select  count(*) from t_member where regTime = #{today}
+    </select>
+
 </mapper>

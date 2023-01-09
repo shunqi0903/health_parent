@@ -10,6 +10,8 @@ import java.util.Map;
 @Repository
 public interface SetmealDao {
 
+     List<Map<String, Object>> hotSetmeal() ;
+
     public void add(Setmeal setmeal);
 
     public void setSetmealIdAndCheckGroupId(Map<String,Integer> map);
@@ -21,4 +23,6 @@ public interface SetmealDao {
     public Setmeal findById(int id);
 
     public Integer[] getCheckGroupIdsBySetmealId(Integer id);
+
+    public List<Map<String,Object>> findSetmealCount();
 }

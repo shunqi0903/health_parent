@@ -41,4 +41,24 @@
                 </if>
             </where>
    </select>
+    <select id="findVisitsNumberByDate" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM t_order WHERE orderDate = #{date} AND orderStatus = "到诊"
+    </select>
+
+<select id="todayOrderNumber" parameterType="string" resultType="int">
+    select count(*) from t_order where orderDate = #{today}
+</select>
+
+    <select id="thisWeekOrderNumber" parameterType="string" resultType="int">
+        select count(*) from t_order where orderDate &gt;= #{thisWeekMonday}
+    </select>
+    <select id="thisWeekVisitsNumber " resultType="int" parameterType="string">
+        select count(*) from t_order where orderDate &gt;= #{thisWeekMonday} and orderStatus = "到诊"
+    </select>
+    <select id="thisMonthVisitsNumber " resultType="int" parameterType="string">
+        select count(*) from t_order where orderDate &gt;= #{firstDay4ThisMonth} and orderStatus = "到诊"
+    </select>
+    <select id="thisMonthOrderNumber " resultType="int" parameterType="string">
+        select count(*) from t_order where orderDate &gt;= #{firstDay4ThisMonth} and orderStatus = "到诊"
+    </select>
 </mapper>

@@ -17,4 +17,6 @@ public interface SetmealService {
     public Setmeal findById(int id);
 
     public Result order(Map map);
+
+    public  List<Map<String,Object>> findSetmealCount();
 }

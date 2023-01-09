@@ -8,6 +8,7 @@ import com.shunqi.entity.Result;
 import com.shunqi.pojo.CheckItem;
 import com.shunqi.service.CheckItemService;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CheckItemController {
     @Reference
     private CheckItemService checkItemService;
 
+    @PreAuthorize("hasAuthority('CHECKITEM_ADD')")
     @PostMapping("/add")
     public Result add(@RequestBody CheckItem checkItem) {
         try {
@@ -33,6 +35,7 @@ public class CheckItemController {
     }
 
     //分页查询
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult pageResult = checkItemService.pageQuery(
@@ -43,6 +46,7 @@ public class CheckItemController {
     }
 
     //删除检查项
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")
     @RequestMapping("/delete")
     public Result delete(Integer id) {
         try {
