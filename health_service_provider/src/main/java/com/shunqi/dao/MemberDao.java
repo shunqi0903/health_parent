@@ -3,13 +3,14 @@ package com.shunqi.dao;
 import com.shunqi.pojo.Member;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MemberDao {
 
     void add(Member member);
 
-    public Member findByTelephone(String telephone);
+    public Member findByTelephone(@Param("telephone") String telephone);
 
     public int memberCount(String value);
 
@@ -20,4 +21,6 @@ public interface MemberDao {
     int todayNewMember(String today);
 
     int totalMember();
+
+    List<Member> findAll();
 }

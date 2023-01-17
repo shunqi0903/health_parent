@@ -156,4 +156,9 @@ public class SetmealServiceImpl implements SetmealService {
         return list;
     }
 
+    @Override
+    public List<Map<String, Object>> hotSetmeal() {
+        return setmealDao.hotSetmeal();
+    }
+
 }

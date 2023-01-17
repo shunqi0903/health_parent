@@ -1,20 +1,25 @@
 package com.shunqi.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shunqi.dao.MemberDao;
 import com.shunqi.pojo.Member;
 import com.shunqi.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberDao memberDao;
     @Override
     public Member findByTelephone(String telephone) {
-        return memberDao.findByTelephone(telephone);
+        Member member = memberDao.findByTelephone(telephone);
+        return member;
     }
 
     @Override
@@ -31,5 +36,13 @@ public class MemberServiceImpl implements MemberService {
             count.add(memberCount);
         }
         return count;
+    }
+
+    @Override
+    public List<Member> findAll(int size,int page) {
+        PageHelper.startPage(size,page);
+        List<Member> memberList = memberDao.findAll();
+        PageInfo<Member> pageInfo = new PageInfo<>(memberList);
+        return pageInfo.getList();
     }
 }

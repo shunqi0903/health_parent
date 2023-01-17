@@ -3,12 +3,64 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <!-- 加载spring容器 -->
+  <!--spring的配置-->
   <context-param>
+    <!--contextConfigLocation：表示用于加载 Bean的配置文件-->
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:spring*.xml</param-value>
+    <!--指定spring配置文件的位置
+    这个配置文件也有一些默认规则，它的配置文件名默认就叫 applicationContext.xml ，
+    如果将这个配置文件放在 WEB-INF 目录下，那么这里就可以不用 指定配置文件位置，
+    只需要指定监听器就可以。
+    这段配置是 Spring 集成 Web 环境的通用配置；一般用于加载除控制器层的 Bean（如
+    dao、service 等），以便于与其他任何Web框架集成。
+    -->
+    <param-value>classpath:spring*.xml</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <!--SpringMVC的配置-->
+  <!--
+  前端控制器：所有的请求都会经过此控制器，然后通过此控制器分发到各个分控制器.
+  前端控制器本质上还是一个Servlet，因为SpringMVC底层就是使用Servlet编写的
+  -->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- 创建前端控制器的时候读取springmvc配置文件启动ioc容器 -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring-web.xml</param-value>
+    </init-param>
+    <!-- Tomcat启动就创建此对象 -->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!-- 配置拦截路径url，所有以.do结尾的请求都会被前端控制器拦截处理 -->
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <!--
+  SpringMVC的配置解析：
+  1、servlet-class：前端控制器的完全限定名，在spring-webmvc-5.2.5.RELEASE.jar包中的
+  org.springframework.web.servlet下
+  2、load-on-startup：标记是否在Web服务器（这里是Tomcat）启动时会创建这个 Servlet 实
+  例，即是否在 Web 服务器启动时调用执行该 Servlet 的 init()方
+  法，而不是在真正访问时才创建。 要求取值是整数。
+  值大于0：表示容器在启动时就加载并初始化这个 servlet，数值越小，该 Servlet的优先级就
+  越高，其被创建的也就越早
+  值小于0或者省略：表示该 Servlet 在真正被使用时才会去创建。
+  值相同：容器会自己选择创建顺序
+  3、url-pattern：可以写为 / ，可以写为*.do 、*.action、*.mvc等形式，此处先写*.do,以后
+  介绍不同写法的区别。
+  4、init-param：表示了springmvc配置文件的名称和位置。如果没有配置，默认在项目的WEB-INF
+  目录下找名称为 Servlet 名称-servlet.xml 的配置文件。
+  如果没有配置，启用默认的规则：即如果配置文件放在 webapp/WEB-INF/ 目录下，并且配置文
+  件的名字等于 DispatcherServlet 的名字+ -servlet（即这里的配置文件路径是 webapp/WEBINF/dispatcherServlet-servlet.xml），如果是这样的话，可以不用添加 init-param 参数，即不
+  用手动配置 springmvc 的配置文件，框架会自动加载。
+  而一般情况下，配置文件是放在类路径下，即 resources 目录下。所以，在注册前端控制器时，
+  还需要设置查找 SpringMVC 配置文件路径。
+  其中contextConfigLocation属性：来自DispatcherServlet的父类FrameworkServlet，
+  该类中的contextConfigLocation属性用来配置springmvc的路径和名称。
+ -->
 </web-app>
